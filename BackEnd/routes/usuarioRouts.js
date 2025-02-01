@@ -53,7 +53,7 @@ router.post("/Usuario/createUsuario", usuarioController.createUsuario);
  *       200:
  *         description: Lista de usuarios obtenida correctamente.
  */
-router.get("/Usuario", authenticate(), usuarioController.getUsuarios);
+router.get("/Usuario", usuarioController.getUsuarios);
 
 /**
  * @swagger
