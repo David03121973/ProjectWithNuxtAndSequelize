@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "concurrently \"yarn run dev\""
+    "start": "node app.js"
   },
   "devDependencies": {
     "eslint": "^9.17.0",
