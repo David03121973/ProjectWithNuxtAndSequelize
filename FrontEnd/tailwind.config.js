@@ -1,5 +1,6 @@
+// filepath: /e:/Informatica/Asignaturas Universidad/Programación con Node/ProyectoDespliegueNuxtAndSequelize/ProjectWithNuxtAndSequelize/FrontEnd/tailwind.config.js
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     './app/**/*.{js,vue,ts}',
     './pages/**/*.{vue,js,ts}',
