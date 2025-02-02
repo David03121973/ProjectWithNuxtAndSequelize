@@ -1,5 +1,6 @@
 <template>
   <div v-if="carta" class="flex flex-col min-h-screen bg-gray-800 overflow-y-auto">
+    <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Detalles de Carta</h1>
     <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras"
       @login="handleLogin" :showFilters="false" />
     <main class="flex flex-wrap justify-between items-start p-5 border border-purple-500 rounded-lg bg-gray-700">
@@ -193,6 +194,43 @@
 </template>
 
 <script>
+useHead({
+  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+  meta: [
+    {
+      name: 'description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      name: 'keywords',
+      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+    },
+    {
+      property: 'og:title',
+      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+    },
+    {
+      property: 'og:description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      property: 'og:image',
+      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:site',
+      content: '@tu_usuario',
+    },
+    {
+      name: 'twitter:creator',
+      content: '@tu_usuario',
+    },
+  ],
+})
 import { Chart, registerables } from 'chart.js';
 import { getCartaById, getCartasAleatorias } from '~/services/cartaServices';
 import { getComprasByCartaId, getVentasByCartaId, updateVenta } from '~/services/ventaServices';

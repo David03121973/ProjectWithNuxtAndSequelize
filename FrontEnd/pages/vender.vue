@@ -1,5 +1,6 @@
 <template>
     <div class="app-container">
+        <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Vender Carta</h1>
         <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @login="handleLogin" @misCompras="handleMisCompras" :showFilters="false" />
 
         <!-- Contenedor principal -->
@@ -97,6 +98,43 @@
 </template>
 
 <script setup>
+useHead({
+  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+  meta: [
+    {
+      name: 'description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      name: 'keywords',
+      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+    },
+    {
+      property: 'og:title',
+      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+    },
+    {
+      property: 'og:description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      property: 'og:image',
+      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:site',
+      content: '@tu_usuario',
+    },
+    {
+      name: 'twitter:creator',
+      content: '@tu_usuario',
+    },
+  ],
+})
 import { ref } from 'vue';
 import DropdownList from '~/components/DropdownList.vue';
 import { getCartasFilteredWithPagination, getCartasWithPagination } from '~/services/cartaServices';

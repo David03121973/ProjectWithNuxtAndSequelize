@@ -1,5 +1,6 @@
 <template>
   <div class="bg-gray-900 min-h-screen flex flex-col items-center justify-center">
+    <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Login</h1>
     <div class="relative sm:max-w-sm w-full">
       <div class="card bg-purple-600 shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6"></div>
       <div class="card bg-purple-400 shadow-lg w-full h-full rounded-3xl absolute transform rotate-6"></div>
@@ -41,6 +42,43 @@
 </template>
 
 <script>
+useHead({
+  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+  meta: [
+    {
+      name: 'description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      name: 'keywords',
+      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+    },
+    {
+      property: 'og:title',
+      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+    },
+    {
+      property: 'og:description',
+      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    },
+    {
+      property: 'og:image',
+      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+    },
+    {
+      name: 'twitter:card',
+      content: 'summary_large_image',
+    },
+    {
+      name: 'twitter:site',
+      content: '@tu_usuario',
+    },
+    {
+      name: 'twitter:creator',
+      content: '@tu_usuario',
+    },
+  ],
+})
 import { login } from '~/services/usuarioServices';
 import Dialog from '../components/Dialog.vue';
 
