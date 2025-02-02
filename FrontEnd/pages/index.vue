@@ -1,17 +1,26 @@
 <template>
   <div class="bg-gray-900 h-screen flex flex-col">
-    <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras"  @login="handleLogin" :showFilters="true" />
+    <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras" @login="handleLogin" :showFilters="true" />
     <main class="container mx-auto p-4 pt-6 flex-1 overflow-y-auto">
       <div v-if="loading">
         <NuxtLoadingIndicator color="#892CDC" height="3px" :throttle="200" :duration="3000" />
       </div>
       <div v-else>
-      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <nuxt-link :to="{ path: '/cartaDetails', query: { id: product.id_carta } }" class="bg-gray-800 border border-purple-600 rounded-lg shadow-md p-4 hover:bg-purple-600"
             v-for="product in products" :key="product.id_carta">
             <div class="flex flex-col items-center">
-              <img :src="`${cerverHost}${product.imagen}`" alt="product.name" class="w-32 h-42 object-cover" />
+              <img
+                v-lazy="`${cerverHost}${product.imagen}`"
+                :srcset="`
+                  ${cerverHost}${product.imagen}?w=320 320w,
+                  ${cerverHost}${product.imagen}?w=480 480w,
+                  ${cerverHost}${product.imagen}?w=800 800w
+                `"
+                sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
+                alt="product.name"
+                class="w-32 h-42 object-cover"
+              />
               <div class="mt-4">
                 <h3 class="text-lg font-bold text-white">{{ product.nombre }}</h3>
                 <p class="text-base text-gray-300">{{ product.tipo }}</p>
@@ -136,13 +145,13 @@ const handleSearch = (query) => {
 const handleVender = () => {
   router.push('/vender');
 }
-const handleLogin = () =>{
+const handleLogin = () => {
   router.push('/login');
 }
-const handleMisVentas = () =>{
+const handleMisVentas = () => {
   router.push('/MisVentas')
 }
-const handleMisCompras = () =>{
+const handleMisCompras = () => {
   router.push('/MisCompras')
 }
 // Cargar los productos al montar el componente
