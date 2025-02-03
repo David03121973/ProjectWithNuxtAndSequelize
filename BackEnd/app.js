@@ -59,6 +59,18 @@ const swaggerOptions = {
       version: "1.0.0", // Versión de la API
       description: "Documentación de la API para manejar usuarios", // Descripción
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [{
+      bearerAuth: []
+    }],
   },
   apis: ["./routes/*.js"], // Especificar dónde están las rutas para generar la documentación
 };

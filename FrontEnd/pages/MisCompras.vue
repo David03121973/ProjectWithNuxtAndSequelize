@@ -107,7 +107,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useHead } from '@unhead/vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import NavBar from '~/components/NavBar.vue';
+import { createResenna } from '~/services/resennaServices';
+import { getVentasByComprador } from '~/services/ventaServices';
+
 useHead({
   title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
   meta: [
@@ -144,78 +151,82 @@ useHead({
       content: '@tu_usuario',
     },
   ],
-})
-import { createResenna } from '~/services/resennaServices';
-import { getVentasByComprador } from '~/services/ventaServices';
+});
+
+const misCompras = ref([]);
+const cerverHost = ref('');
+const selectedRating = ref(0);
+const titleMesage = ref('');
+const messageMesage = ref('');
+const showDialog = ref(false);
+
 const router = useRouter();
-export default {
-  data() {
-    return {
-      misCompras: [],
-      cerverHost: "",
-      selectedRating: 0,
-      titleMesage: "",
-      messageMesage: "",
-      showDialog: false
-    }
-  },
-  beforeMount() {
-    if (typeof window !== 'undefined') {
-      this.cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}:3000` : `${window.location.origin}:3000`;
-    }
-    this.getVentsByVendedorUsuario();
-  },
-  methods: {
-    async getVentsByVendedorUsuario() {
-      try {
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const resultVentasByUser = await getVentasByComprador(usuario.id_usuario)
-        this.misCompras = resultVentasByUser
-      } catch (error) {
-        console.error('Error al obtener las ventas:', error);
-      }
-    },
-    async addResenna(compra) {
-      try {
-        const usuario = JSON.parse(localStorage.getItem('usuario'));
-        const resenna = {
-          id_usuario: usuario.id_usuario,
-          descripcion: compra.resennaDescriptio || "",
-          valoracion: compra.selectedRating || 0,
-        }
-        if (resenna.descripcion !== "" && resenna.valoracion !== 0) {
-          await createResenna(resenna);
-          compra.resennaDescriptio = "";
-          compra.selectedRating = 0;
-          this.titleMesage = "Reseña agregada";
-          this.messageMesage = "Se agregó la reseña con éxito";
-          this.showDialog = true;
-        } else {
-          this.titleMesage = "Error";
-          this.messageMesage = "Debe proporcionar una descripción y dar una valoración";
-          this.showDialog = true;
-        }
-      } catch (error) {
-        this.titleMesage = "Error";
-        this.messageMesage = 'Error al agregar la reseña:', error;
-        this.showDialog = true;
-      }
-    },
-    rate(compra, n) {
-      compra.selectedRating = n;
-    },
-    handleVender() {
-      router.push('/vender');
-    },
-    handleLogin() {
-      router.push('/login');
-    },
-    handleMisVentas() {
-      router.push('/MisVentas')
-    },
-    handleMisCompras() {
-      router.push('/MisCompras')
-    }
+
+onMounted(() => {
+  if (typeof window !== 'undefined') {
+    cerverHost.value = window.location.port ? `${window.location.protocol}//${window.location.hostname}:3000` : `${window.location.origin}:3000`;
+  }
+  getVentsByVendedorUsuario();
+});
+
+async function getVentsByVendedorUsuario() {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    const resultVentasByUser = await getVentasByComprador(usuario.id_usuario);
+    misCompras.value = resultVentasByUser;
+  } catch (error) {
+    console.error('Error al obtener las ventas:', error);
   }
 }
+
+async function addResenna(compra) {
+  try {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    const resenna = {
+      id_usuario: usuario.id_usuario,
+      descripcion: compra.resennaDescriptio || '',
+      valoracion: compra.selectedRating || 0,
+    };
+    if (resenna.descripcion !== '' && resenna.valoracion !== 0) {
+      await createResenna(resenna);
+      compra.resennaDescriptio = '';
+      compra.selectedRating = 0;
+      titleMesage.value = 'Reseña agregada';
+      messageMesage.value = 'Se agregó la reseña con éxito';
+      showDialog.value = true;
+    } else {
+      titleMesage.value = 'Error';
+      messageMesage.value = 'Debe proporcionar una descripción y dar una valoración';
+      showDialog.value = true;
+    }
+  } catch (error) {
+    titleMesage.value = 'Error';
+    messageMesage.value = 'Error al agregar la reseña:', error;
+    showDialog.value = true;
+  }
+}
+
+function rate(compra, n) {
+  compra.selectedRating = n;
+}
+
+function handleVender() {
+  router.push('/vender');
+}
+
+function handleLogin() {
+  router.push('/login');
+}
+
+function handleMisVentas() {
+  router.push('/MisVentas');
+}
+
+function handleMisCompras() {
+  router.push('/MisCompras');
+}
 </script>
+
+<style scoped>
+/* Estilos para el componente */
+</style>

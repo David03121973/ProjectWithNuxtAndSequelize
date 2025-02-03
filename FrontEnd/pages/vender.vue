@@ -140,7 +140,10 @@ import DropdownList from '~/components/DropdownList.vue';
 import { getCartasFilteredWithPagination, getCartasWithPagination } from '~/services/cartaServices';
 import { createVenta } from '~/services/ventaServices';
 
-const cerverHost = `${window.location.origin}:3000`;
+let cerverHost = '';
+if (typeof window !== 'undefined') {
+  cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}:3000` : `${window.location.origin}:3000`;
+}
 const router = useRouter();
 
 const showDialog = ref(false);
@@ -175,11 +178,11 @@ async function fetchCartas() {
         loading.value = true; // Activar el estado de carga
         let response;
         if (filters.value.nombre) {
-            response = await getCartasFilteredWithPagination(currentPage.value, 16, {
+            response = await getCartasFilteredWithPagination(currentPage.value, 8, {
                 nombre: filters.value.nombre
             });
         } else {
-            response = await getCartasWithPagination(currentPage.value, 16);
+            response = await getCartasWithPagination(currentPage.value, 8);
         }
         cartas.value = [...cartas.value, ...response.cartas]; // Actualizar la lista de cartas
     } catch (error) {
@@ -266,7 +269,7 @@ const handleMisVentas = () =>{
   router.push('/MisVentas')
 }
 const handleMisCompras =() =>{
-  router.push('/MisComptras')
+  router.push('/MisCompras')
 }
 
 onMounted(() => {

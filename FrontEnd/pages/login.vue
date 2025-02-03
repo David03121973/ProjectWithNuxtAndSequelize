@@ -33,6 +33,12 @@
                 Crear cuenta
               </nuxt-link>
             </div>
+            <div class="flex justify-center items-center mt-4">
+              <nuxt-link to="/"
+                class="text-purple-500 transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
+                Ir al inicio
+              </nuxt-link>
+            </div>
           </div>
         </form>
       </div>
@@ -94,6 +100,7 @@ export default {
   },
   methods: {
     async handleLogin() {
+      this.$refs.dialog.openDialog('Iniciando Sesión', 'Por favor, espere un momento');
       if (this.validateFields()) {
         try {
           const response = await login(this.userData);

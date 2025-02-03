@@ -33,46 +33,44 @@
       class="w-11/12 ml-5 mt-4 h-96 overflow-y-auto p-5 bg-gray-700 border border-purple-500 rounded-lg shadow-md mb-8 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800">
       <h2 class="text-white text-xl mb-3">Ventas de la carta</h2>
       <div class="space-y-4">
-  <div v-for="venta in ventas" :key="venta.id_venta"
-    class="flex flex-col md:flex-row items-start md:items-center justify-between p-3 bg-gray-800 border border-purple-500 rounded-lg">
-    <div class="flex flex-col items-start justify-center text-white mb-4 md:mb-0 md:mr-4">
-      <p>Estado: {{ venta.estado }}</p>
-      <p>Fecha Venta: {{ new Date(venta.fecha_venta).toLocaleDateString() }}</p>
-      <p>Vendedor: {{ venta.vendedor.nombre_usuario }}</p>
-      <div class="flex items-center">
-        <span v-for="star in 5" :key="star">
-          <i v-if="star <= venta.vendedor.valoracionPromedio" class="text-yellow-500">*</i>
-          <i v-else class="text-gray-500">*</i>
-        </span>
+        <div v-for="venta in ventas" :key="venta.id_venta"
+          class="flex flex-col md:flex-row items-start md:items-center justify-between p-3 bg-gray-800 border border-purple-500 rounded-lg">
+          <div class="flex flex-col items-start justify-center text-white mb-4 md:mb-0 md:mr-4">
+            <p>Estado: {{ venta.estado }}</p>
+            <p>Fecha Venta: {{ new Date(venta.fecha_venta).toLocaleDateString() }}</p>
+            <p>Vendedor: {{ venta.vendedor.nombre_usuario }}</p>
+            <div class="flex items-center">
+              <span v-for="star in 5" :key="star">
+                <i v-if="star <= venta.vendedor.valoracionPromedio" class="text-yellow-500">*</i>
+                <i v-else class="text-gray-500">*</i>
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto">
+            <div class="mb-4 md:mb-0 md:mr-4">
+              <button class="bg-purple-500 text-white px-5 py-3 rounded-lg hover:bg-purple-700 transition duration-300">
+                Ver Reseñas del Vendedor
+              </button>
+            </div>
+            <div class="text-green-500 text-2xl font-bold p-3 mb-4 md:mb-0 md:mr-4">
+              <p>Precio: ${{ venta.precio_venta }}</p>
+            </div>
+            <div v-if="usuario && venta.vendedor.id_usuario !== usuario.id_usuario">
+              <button class="bg-purple-500 text-white px-5 py-3 rounded-lg hover:bg-purple-700 transition duration-300"
+                @click="() => confirmationComprarCarta(venta)">Comprar</button>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between w-full md:w-auto">
-      <div class="mb-4 md:mb-0 md:mr-4">
-        <button class="bg-purple-500 text-white px-5 py-3 rounded-lg hover:bg-purple-700 transition duration-300">
-          Ver Reseñas del Vendedor
-        </button>
-      </div>
-      <div class="text-green-500 text-2xl font-bold p-3 mb-4 md:mb-0 md:mr-4">
-        <p>Precio: ${{ venta.precio_venta }}</p>
-      </div>
-      <div>
-        <button class="bg-purple-500 text-white px-5 py-3 rounded-lg hover:bg-purple-700 transition duration-300"
-          @click="() => confirmationComprarCarta(venta)">Comprar</button>
-      </div>
-    </div>
-  </div>
-</div>
     </div>
     <div class="mt-5 p-5 bg-gray-700 border border-purple-500 rounded-lg">
       <h2 class="text-white text-xl mb-3">Productos relacionados</h2>
       <div class="relative flex items-center">
-        <!-- Botón para desplazar hacia la izquierda -->
         <button @click="scrollLeft"
           class="absolute left-0 top-1/2 w-12 h-14 bg-gray-800 border border-purple-500 rounded-lg transform -translate-y-1/2 p-2">
           <i class="text-white text-2xl">
             <</i>
         </button>
-        <!-- Contenedor desplazable con el ref -->
         <div ref="productosLista"
           class="flex space-x-5 overflow-x-auto p-2 scroll-smooth cursor-grab scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-800">
           <nuxt-link :to="{ path: '/cartaDetails', query: { id: producto.id_carta } }"
@@ -85,7 +83,6 @@
             </div>
           </nuxt-link>
         </div>
-        <!-- Botón para desplazar hacia la derecha -->
         <button @click="scrollRight"
           class="absolute right-0 top-1/2 w-12 h-14 bg-gray-800 border border-purple-500 rounded-lg transform -translate-y-1/2 p-2">
           <i class="text-white text-2xl">></i>
@@ -103,14 +100,12 @@
               class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full sm:mx-0 sm:h-10 sm:w-10"
               :class="titleMessageCheck === 'Error' ? 'bg-red-100' : (titleMessageCheck === '¿Confirmación?' ? 'bg-yellow-100' : 'bg-green-100')">
 
-              <!-- Ícono de Error -->
               <svg v-if="titleMessageCheck === 'Error'" class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
 
-              <!-- Ícono de Confirmación -->
               <svg v-else-if="titleMessageCheck === '¿Confirmación?'" class="h-6 w-6 text-yellow-600"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                 aria-hidden="true">
@@ -118,7 +113,6 @@
                   d="M12 8v4m0 4h.01M12 16h0M12 6h0M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
 
-              <!-- Ícono por defecto (Palomita) -->
               <svg v-else class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -188,59 +182,29 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
-useHead({
-  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-  meta: [
-    {
-      name: 'description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      name: 'keywords',
-      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
-    },
-    {
-      property: 'og:title',
-      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-    },
-    {
-      property: 'og:description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      property: 'og:image',
-      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      name: 'twitter:site',
-      content: '@tu_usuario',
-    },
-    {
-      name: 'twitter:creator',
-      content: '@tu_usuario',
-    },
-  ],
-})
 import { Chart, registerables } from 'chart.js';
 import { getCartaById, getCartasAleatorias } from '~/services/cartaServices';
 import { getComprasByCartaId, getVentasByCartaId, updateVenta } from '~/services/ventaServices';
 
-const router = useRouter();
-
 export default {
+  async asyncData({ query }) {
+    try {
+      const carta = await getCartaById(query.id);
+      const ventas = await getVentasByCartaId(query.id);
+      return { carta, ventas };
+    } catch (error) {
+      console.error('Error al cargar los detalles de la carta:', error);
+      throw error;
+    }
+  },
   data() {
     return {
       carta: null,
+      usuario: null,
       ventas: [],
       productosRelacionados: [],
       ventasConCompradorData: [],
@@ -285,6 +249,7 @@ export default {
     }
   },
   beforeMount() {
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.cargarCarta();
   },
   watch: {
@@ -423,16 +388,16 @@ export default {
       }
     },
     handleVender() {
-      router.push('/vender');
+      this.$router.push('/vender');
     },
     handleLogin() {
-      router.push('/login');
+      this.$router.push('/login');
     },
     handleMisVentas() {
-      router.push('/MisVentas')
+      this.$router.push('/MisVentas')
     },
     handleMisCompras() {
-      router.push('/MisCompras')
+      this.$router.push('/MisCompras')
     }
   }
 }

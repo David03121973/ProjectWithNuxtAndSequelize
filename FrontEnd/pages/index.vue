@@ -129,13 +129,13 @@ async function fetchProducts() {
     loading.value = true; // Activar el estado de carga
     let response;
     if (searchQuery.value) {
-      response = await getCartasFilteredWithPagination(currentPage.value, 16, {
+      response = await getCartasFilteredWithPagination(currentPage.value, 8, {
         nombre: filters.value.nombre,
         tipo: filters.value.tipo,
         arquetipo: filters.value.arquetipo,
       });
     } else {
-      response = await getCartasWithPagination(currentPage.value, 16);
+      response = await getCartasWithPagination(currentPage.value, 8);
     }
     products.value = response.cartas; // Actualizar la lista de productos
     totalProducts.value = response.totalCartas; // Actualizar el total de productos
