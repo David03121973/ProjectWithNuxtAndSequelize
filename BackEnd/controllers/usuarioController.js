@@ -181,34 +181,38 @@ const deleteUsuario = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { nombre_usuario, contrasenna } = req.body;
-  
-    try {
-      const usuario = await usuarioService.getUsuarioByNombreUsuario(nombre_usuario);
-      if (!usuario) {
-        return res.status(404).json({ message: "No se ha encontrado el usuario con el nombre de usuario pasado por parámetros." });
-      }
-  
-      const isValidPassword = await bcrypt.compare(contrasenna, usuario.contrasenna);
-      if (!isValidPassword) {
-        return res.status(401).json({ message: "Contraseña incorrecta" });
-      }
-  
-      const token = jwt.sign({ userId: usuario.id_usuario }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      const respuesta = {
-        usuario: {
-          id_usuario: usuario.id_usuario,
-          nombre_usuario: usuario.nombre_usuario,
-          email: usuario.email
-        },
-        token
-      };
-      return res.status(200).json(respuesta);
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      return res.status(500).json({ message: "Error al iniciar sesión", error });
+  const { nombre_usuario, contrasenna } = req.body;
+
+  try {
+    const usuario = await usuarioService.getUsuarioByNombreUsuario(nombre_usuario);
+    if (!usuario) {
+      return res.status(404).json({ message: "No se ha encontrado el usuario con el nombre de usuario pasado por parámetros." });
     }
-  };
+
+    const isValidPassword = await bcrypt.compare(contrasenna, usuario.contrasenna);
+    if (!isValidPassword) {
+      return res.status(401).json({ message: "Contraseña incorrecta" });
+    }
+
+    const token = jwt.sign({ userId: usuario.id_usuario }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ userId: usuario.id_usuario }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '24h' });
+
+    const respuesta = {
+      usuario: {
+        id_usuario: usuario.id_usuario,
+        nombre_usuario: usuario.nombre_usuario,
+        email: usuario.email
+      },
+      token: token,
+      refreshToken
+    };
+
+    return res.status(200).json(respuesta);
+  } catch (error) {
+    console.error("Error al iniciar sesión:", error);
+    return res.status(500).json({ message: "Error al iniciar sesión", error });
+  }
+};
 
 module.exports = {
     getUsuarios,

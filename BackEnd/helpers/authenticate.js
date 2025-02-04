@@ -9,14 +9,14 @@ const authenticate = () => {
         return res.status(403).json({ message: 'Necesita iniciar sesión' });
       }
       try {
-        
-        const decodedToken = jwt.verify(authHeader, process.env.JWT_SECRET);
+        const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : authHeader;
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         req.userData = { userId: decodedToken.userId };
         next();
       } catch (error) {
         return res.status(403).json({ message: 'Permiso denegado' });
       }
     };
-  };
+};
 
 module.exports = authenticate;

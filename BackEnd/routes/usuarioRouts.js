@@ -1,11 +1,22 @@
-// routes/usuario.js
-
 const express = require("express");
 const router = express.Router();
 // Etiqueta taks
 // Importar controlador de usuario
 const usuarioController = require("../controllers/usuarioController");
 const authenticate = require("../helpers/authenticate");
+
+/**
+ * @swagger
+ * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
+ * 
+ * security:
+ *   - bearerAuth: []
+ */
 
 /**
  * @swagger
