@@ -133,7 +133,7 @@ useSeoMeta({
 });
 
 const misCompras = ref([]);
-const cerverHost = ref('');
+const cerverHost = "https://projectwithnuxtandsequelize-1.onrender.com";
 const selectedRating = ref(0);
 const titleMesage = ref('');
 const messageMesage = ref('');
@@ -142,9 +142,6 @@ const showDialog = ref(false);
 const router = useRouter();
 
 onMounted(() => {
-  if (typeof window !== 'undefined') {
-    cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}` : `${window.location.origin}`;
-  }
   getVentsByVendedorUsuario();
 });
 

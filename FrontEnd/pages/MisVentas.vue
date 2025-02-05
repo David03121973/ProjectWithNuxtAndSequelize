@@ -181,15 +181,12 @@ const titleMesage = ref('');
 const messageMesage = ref('');
 
 const misVentas = ref([]);
-const cerverHost = ref('');
+const cerverHost = "https://projectwithnuxtandsequelize-1.onrender.com";
 const idVentaCancelar = ref(0);
 
 const router = useRouter();
 
 onMounted(() => {
-  if (typeof window !== 'undefined') {
-    cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}` : `${window.location.origin}`;
-  }
   getVentsByVendedorUsuario();
 });
 

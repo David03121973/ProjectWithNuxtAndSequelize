@@ -62,10 +62,7 @@ useSeoMeta({
   },
 });
 
-let cerverHost = '';
-if (typeof window !== 'undefined') {
-  cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}` : `${window.location.origin}`;
-}
+let cerverHost = "https://projectwithnuxtandsequelize-1.onrender.com";
 const router = useRouter();
 
 const products = ref([]); // Lista de productos actuales
