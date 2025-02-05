@@ -35,6 +35,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  runtimeConfig: {
+    public: {
+      isProduction: process.env.NUXT_PUBLIC_IS_PRODUCTION,
+    },
+  },
   head: {
     title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
     meta: [

@@ -143,7 +143,7 @@ const router = useRouter();
 
 onMounted(() => {
   if (typeof window !== 'undefined') {
-    cerverHost.value = window.location.port ? `${window.location.protocol}//${window.location.hostname}:3000` : `${window.location.origin}:3000`;
+    cerverHost = window.location.port ? `${window.location.protocol}//${window.location.hostname}` : `${window.location.origin}`;
   }
   getVentsByVendedorUsuario();
 });
