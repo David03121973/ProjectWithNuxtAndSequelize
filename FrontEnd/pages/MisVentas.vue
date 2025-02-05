@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-900 h-screen flex flex-col">
-    <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Mis Ventas</h1>
+    <h1 class="text-sm text-gray-300 mx-4">TCG Sell - Mis Ventas</h1>
     <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @login="handleLogin"
       @misCompras="handleMisCompras" :showFilters="false" />
     <main class="container mx-auto p-4 pt-6 flex-1 overflow-y-auto">
@@ -10,7 +10,7 @@
           <div class="flex flex-col md:flex-row justify-between">
             <nuxt-link :to="{ path: '/cartaDetails', query: { id: venta.carta.id_carta } }"
               class="w-full h-48 md:w-1/3 md:h-96 mb-4 md:mb-0 md:mr-5">
-              <img :src="`${cerverHost}${venta.carta.imagen}`" alt="Imagen"
+              <nuxt-img :src="`${cerverHost}${venta.carta.imagen}`" alt="Imagen"
                 class="w-50 h-full object-cover rounded-lg" />
             </nuxt-link>
             <div class="w-full md:w-96 text-white text-lg mb-4 md:mb-0">
@@ -155,44 +155,24 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import NavBar from '~/components/NavBar.vue';
 import { deleteVenta, getVentasByVendedor } from '~/services/ventaServices';
+import { useSeoMeta } from '#app';
 
-useHead({
-  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-  meta: [
-    {
-      name: 'description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      name: 'keywords',
-      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
-    },
-    {
-      property: 'og:title',
-      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-    },
-    {
-      property: 'og:description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      property: 'og:image',
-      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      name: 'twitter:site',
-      content: '@tu_usuario',
-    },
-    {
-      name: 'twitter:creator',
-      content: '@tu_usuario',
-    },
-  ],
+useSeoMeta({
+  title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+  description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+  keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+  openGraph: {
+    title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+    description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    image: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@tu_usuario',
+    creator: '@tu_usuario',
+  },
 });
+
 const showDialogCheck = ref(false);
 const titleMessageCheck = ref('');
 const messageMessageCheck = ref('');

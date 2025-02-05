@@ -1,11 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/robots',
-    '@zadigetvoltaire/nuxt-gtm'
+    '@nuxtjs/seo',
+    '@nuxt/image'
   ],
   css: ['~/assets/css/tailwind.css'],
   server: {
@@ -19,27 +19,24 @@ export default defineNuxtConfig({
     UserAgent: '*',
     Disallow: ''
   },
-  seoMeta: {
-    baseUrl: 'https://projectwithnuxtandsequelize-1.onrender.com',
-    name: 'TCG Cell',
-    title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-    templateTitle: '%name% - %title%',
-    description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    canonical: 'auto',
-    isForcedTrailingSlash: false,
-    keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
-    openGraph: {
-      type: 'website',
-      image: 'https://projectwithnuxtandsequelize-1.onrender.com/favicon.ico',
-      locale: 'es_ES',
-      site_name: 'TCG Cell',
+  seo: {
+    site: {
+      name: 'TCG Sell',
+      title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+      description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+      canonical: 'auto',
+      isForcedTrailingSlash: false,
+      keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+      openGraph: {
+        type: 'website',
+        image: 'https://projectwithnuxtandsequelize-1.onrender.com/favicon.ico',
+        locale: 'es_ES',
+        site_name: 'TCG Sell',
+      },
     },
   },
-  gtm: {
-    id: 'GTM-XXXXXXX', // Reemplaza con tu ID de Google Tag Manager
-  },
   head: {
-    title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
+    title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

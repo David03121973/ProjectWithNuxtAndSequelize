@@ -1,27 +1,21 @@
 <template>
   <div class="bg-gray-900 h-screen flex flex-col">
-    <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Tienda de cartas de Yu-Gi-Oh</h1>
-    <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras" @login="handleLogin" :showFilters="true" />
+    <h1 class="text-sm text-gray-300 mx-4">TCG Sell - Tienda de cartas de Yu-Gi-Oh</h1>
+    <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras"
+      @login="handleLogin" :showFilters="true" />
     <main class="container mx-auto p-4 pt-6 flex-1 overflow-y-auto">
       <div v-if="loading">
         <NuxtLoadingIndicator color="#892CDC" height="3px" :throttle="200" :duration="3000" />
       </div>
       <div v-else>
         <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <nuxt-link :to="{ path: '/cartaDetails', query: { id: product.id_carta } }" class="bg-gray-800 border border-purple-600 rounded-lg shadow-md p-4 hover:bg-purple-600"
+          <nuxt-link :to="{ path: '/cartaDetails', query: { id: product.id_carta } }"
+            class="bg-gray-800 border border-purple-600 rounded-lg shadow-md p-4 hover:bg-purple-600"
             v-for="product in products" :key="product.id_carta">
             <div class="flex flex-col items-center">
-              <img
-                v-lazy="`${cerverHost}${product.imagen}`"
-                :srcset="`
-                  ${cerverHost}${product.imagen}?w=320 320w,
-                  ${cerverHost}${product.imagen}?w=480 480w,
-                  ${cerverHost}${product.imagen}?w=800 800w
-                `"
-                sizes="(max-width: 320px) 280px, (max-width: 480px) 440px, 800px"
-                alt="product.name"
-                class="w-32 h-42 object-cover"
-              />
+              <nuxt-img :src="`${cerverHost}${product.imagen}`"
+                :sizes="'(max-width: 320px) 280px, (max-width: 480px) 440px, 800px'" :alt="product.name"
+                class="w-32 h-42 object-cover" loading="lazy" width="800" height="800" format="webp" quality="80" />
               <div class="mt-4">
                 <h3 class="text-lg font-bold text-white">{{ product.nombre }}</h3>
                 <p class="text-base text-gray-300">{{ product.tipo }}</p>
@@ -32,9 +26,12 @@
           </nuxt-link>
         </div>
         <div class="flex justify-center mt-4">
-          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1" class="bg-gray-800 border border-purple-600 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">Anterior</button>
-          <span class="text-sm text-gray-300 mx-4">{{ currentPage }} de {{ totalPages }} - Total: {{ totalProducts }} productos</span>
-          <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages" class="bg-gray-800 border border-purple-600 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">Siguiente</button>
+          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
+            class="bg-gray-800 border border-purple-600 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">Anterior</button>
+          <span class="text-sm text-gray-300 mx-4">{{ currentPage }} de {{ totalPages }} - Total: {{ totalProducts }}
+            productos</span>
+          <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
+            class="bg-gray-800 border border-purple-600 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded">Siguiente</button>
         </div>
       </div>
     </main>
@@ -42,48 +39,28 @@
 </template>
 
 <script setup>
-useHead({
-  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-  meta: [
-    {
-      name: 'description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      name: 'keywords',
-      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
-    },
-    {
-      property: 'og:title',
-      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-    },
-    {
-      property: 'og:description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      property: 'og:image',
-      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      name: 'twitter:site',
-      content: '@tu_usuario',
-    },
-    {
-      name: 'twitter:creator',
-      content: '@tu_usuario',
-    },
-  ],
-})
 import { ref, computed, onMounted } from 'vue';
 import { getCartasWithPagination, getCartasFilteredWithPagination } from '~/services/cartaServices';
 import { obtenerPrecioMasBajo } from '~/helpers/obtenerPrecioMásBajo';
 import { getVentasByCartaId } from '~/services/ventaServices';
 import { useRouter } from 'vue-router';
+import { useSeoMeta } from '#app';
+
+useSeoMeta({
+  title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+  description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+  keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+  openGraph: {
+    title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+    description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    image: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@tu_usuario',
+    creator: '@tu_usuario',
+  },
+});
 
 let cerverHost = '';
 if (typeof window !== 'undefined') {
@@ -189,5 +166,4 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

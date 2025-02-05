@@ -1,6 +1,6 @@
 <template>
     <div class="app-container">
-        <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Vender Carta</h1>
+        <h1 class="text-sm text-gray-300 mx-4">TCG Sell - Vender Carta</h1>
         <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @login="handleLogin" @misCompras="handleMisCompras" :showFilters="false" />
 
         <!-- Contenedor principal -->
@@ -10,7 +10,7 @@
                 <div class="cartas-container" @scroll="handleScroll">
                     <div v-for="carta in cartas" :key="carta.id_carta" class="carta-container"
                         @click="seleccionarCarta(carta)">
-                        <img :src="`${cerverHost}${carta.imagen}`" alt="carta.nombre" class="carta-image" />
+                        <nuxt-img :src="`${cerverHost}${carta.imagen}`" alt="carta.nombre" class="carta-image" />
                         <div class="carta-info">
                             <h3 class="carta-nombre">{{ carta.nombre }}</h3>
                         </div>
@@ -22,7 +22,7 @@
             <div class="right-container">
                 <!-- Contenido de la página de vender -->
                 <main>
-                    <h1>Vender Producto</h1>
+                    <h2>Vender Producto</h2>
                     <form @submit.prevent="submitForm">
                         <div>
                             <label for="nombre">Nombre del producto:</label>
@@ -98,47 +98,27 @@
 </template>
 
 <script setup>
-useHead({
-  title: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-  meta: [
-    {
-      name: 'description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      name: 'keywords',
-      content: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
-    },
-    {
-      property: 'og:title',
-      content: 'TCG Cell - Tienda de cartas de Yu-Gi-Oh',
-    },
-    {
-      property: 'og:description',
-      content: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
-    },
-    {
-      property: 'og:image',
-      content: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
-    },
-    {
-      name: 'twitter:card',
-      content: 'summary_large_image',
-    },
-    {
-      name: 'twitter:site',
-      content: '@tu_usuario',
-    },
-    {
-      name: 'twitter:creator',
-      content: '@tu_usuario',
-    },
-  ],
-})
 import { ref } from 'vue';
 import DropdownList from '~/components/DropdownList.vue';
 import { getCartasFilteredWithPagination, getCartasWithPagination } from '~/services/cartaServices';
 import { createVenta } from '~/services/ventaServices';
+import { useSeoMeta } from '#app';
+
+useSeoMeta({
+  title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+  description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+  keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+  openGraph: {
+    title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+    description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    image: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@tu_usuario',
+    creator: '@tu_usuario',
+  },
+});
 
 let cerverHost = '';
 if (typeof window !== 'undefined') {

@@ -1,6 +1,6 @@
 <template>
   <div v-if="carta" class="flex flex-col min-h-screen bg-gray-800 overflow-y-auto">
-    <h1 class="text-sm text-gray-300 mx-4">TCG Cell - Detalles de Carta</h1>
+    <h1 class="text-sm text-gray-300 mx-4">TCG Sell - Detalles de Carta</h1>
     <NavBar @search="handleSearch" @vender="handleVender" @misVentas="handleMisVentas" @misCompras="handleMisCompras"
       @login="handleLogin" :showFilters="false" />
     <main class="flex flex-wrap justify-between items-start p-5 border border-purple-500 rounded-lg bg-gray-700">
@@ -189,6 +189,23 @@
 import { Chart, registerables } from 'chart.js';
 import { getCartaById, getCartasAleatorias } from '~/services/cartaServices';
 import { getComprasByCartaId, getVentasByCartaId, updateVenta } from '~/services/ventaServices';
+import { useSeoMeta } from '#app';
+
+useSeoMeta({
+  title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+  description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+  keywords: 'Yu-Gi-Oh, Cuba, Venta, cartas, Juego, TCG, Tienda, Cubana, Coleccionables, Duelos',
+  openGraph: {
+    title: 'TCG Sell - Tienda de cartas de Yu-Gi-Oh',
+    description: 'Somos una tienda de cartas de Yu-Gi-Oh en Cuba en la que podrás encontrar cartas de todo tipo, desde las más comunes hasta las más raras.',
+    image: 'https://projectwithnuxtandsequelize-1.onrender.com/logo.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@tu_usuario',
+    creator: '@tu_usuario',
+  },
+});
 
 export default {
   async asyncData({ query }) {
